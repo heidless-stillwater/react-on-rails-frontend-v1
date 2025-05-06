@@ -1,0 +1,13 @@
+steps:
+# - name: 'gcr.io/cloud-builders/docker'
+#   args: [ 'build', '-t', '${_GCP_REGION}-docker.pkg.dev/${_GCP_PROJECT_ID}/${_GCP_REPOSITORY_NAME}/${_GCP_IMAGE_NAME}', '-f', './Dockerfile', '.' ]
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: [ 'builds', 'submit', '--config', 'cloudbuild.yaml', '--substitutions', '_GCP_REGION=${_GCP_REGION}', '--substitutions', '_GCP_REPOSITORY_NAME=${_GCP_REPOSITORY_NAME}', '--substitutions', '_GCP_IMAGE_NAME=${_GCP_IMAGE_NAME}' ]
+
+substitutions:
+  _GCP_REGION: europe-west2
+  _GCP_PROJECT_ID: '669532112637'
+  _GCP_REPOSITORY_NAME: gcr.io
+  _GCP_IMAGE_NAME: react-gcp-vite-test-v2-image
+
