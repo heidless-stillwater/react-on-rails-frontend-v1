@@ -17,7 +17,7 @@ jest.mock('../features/posts/PostsList', () => {
 
 jest.mock('../features/posts/PostDetails', () => {
   const MockPostDetails = () => (
-    <div>Your Matcher for PostList component here</div>
+    <div>Your Matcher for PostDetails component here</div>
   );
   return MockPostDetails;
 });
@@ -31,7 +31,7 @@ jest.mock("../features/posts/NewPostForm", () => {
 
 jest.mock("../features/posts/PostEditForm", () => {
   const MockPostEditForm = () => (
-    <div>Your matcher for NewPostForm component here</div>
+    <div>Your matcher for PostEditForm component here</div>
   );
   return MockPostEditForm;
 });
@@ -57,7 +57,7 @@ describe('AppRoutes component', () => {
 
   test('post details path renders the PostDetails component', () => {
     renderWithRouter(<AppRoutes />, { initialEntries: ['/posts/1'] });
-    const expectedText = "Your Matcher for PostList component here";
+    const expectedText = "Your Matcher for PostDetails component here";
     expect(screen.getByText(expectedText)).toBeInTheDocument();
   });
 
@@ -69,7 +69,7 @@ describe('AppRoutes component', () => {
 
   test("/posts/:id/edit path renders PostEditForm", () => {
     renderWithRouter(<AppRoutes />, { initialEntries: ["/posts/1/edit"] });
-    const expectedText = "Your matcher for NewPostForm component here";
+    const expectedText = "Your matcher for PostEditForm component here";
     expect(
       screen.getByText(expectedText)
     ).toBeInTheDocument();
