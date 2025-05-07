@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "test": "jest --passWithNoTests",
-    "coverage":"jest --coverage", 
+    "coverage": "jest --coverage",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -18,7 +18,7 @@
     "react-router-dom": "^7.5.2"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.27.1",
+    "@babel/preset-env": "^7.27.2",
     "@babel/preset-react": "^7.27.1",
     "@eslint/js": "^9.22.0",
     "@testing-library/jest-dom": "^6.6.3",

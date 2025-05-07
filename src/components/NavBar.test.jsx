@@ -1,3 +1,4 @@
+
 import { TextEncoder, TextDecoder } from 'util'
 global.TextEncoder = TextEncoder
 // @ts-expect-error
@@ -5,6 +6,7 @@ global.TextDecoder = TextDecoder
 
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+
 import NavBar from './NavBar';
 
 describe('NavBar component', () => {
