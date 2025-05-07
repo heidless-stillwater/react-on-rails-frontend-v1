@@ -17,7 +17,6 @@ async function fetchPost(id) {
   return response.json();
 }
 
-
 async function createPost(postData) {
   const response = await fetch(API_URL, {
     method: 'POST',
@@ -57,6 +56,7 @@ async function deletePost(id) {
   if (response.status === 204) {
     return null;
   }
+
   return response.json();
 }
 
