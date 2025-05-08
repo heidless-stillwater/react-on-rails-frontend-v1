@@ -22,7 +22,7 @@ function PostsList() {
         console.error("failed to fetch posts")
       } catch (e) {
         setError("An error occured while fetching posts: " + e.message);
-        console.log("An error occured while fetching posts: " + e.message);
+        // console.log("An error occured while fetching posts: " + e.message);
         setLoading(false);
       }
     }
@@ -36,7 +36,7 @@ function PostsList() {
       // setPosts(prevPosts => prevPosts.filter(post => post.id !== id));
     } catch (e) {
       setError("failed to delete post: " + e.message);
-      console.log("failed to delete post: " + e.message);
+      // console.log("failed to delete post: " + e.message);
     }
   }
   

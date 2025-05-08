@@ -17,11 +17,11 @@ function PostDetails() {
     const fetchCurrentPost = async () => {
       try {
         const json = await fetchPost(id);
-        console.log("json", json);
+        // console.log("json", json);
         setPost(json);
       } catch (e) {
         setError("failed to fetch the Post: " + e);
-        console.log("failed to fetch the Post: " + e);
+        // console.log("failed to fetch the Post: " + e);
       }  
     }
     fetchCurrentPost();
