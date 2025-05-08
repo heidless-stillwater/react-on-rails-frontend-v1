@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { 
@@ -18,6 +19,7 @@ function PostsList() {
         const data = await fetchAllPosts();
         setPosts(data);
         setLoading(false);
+        console.error("failed to fetch posts")
       } catch (e) {
         setError("An error occured while fetching posts: " + e.message);
         console.log("An error occured while fetching posts: " + e.message);
@@ -33,11 +35,12 @@ function PostsList() {
       setPosts(posts.filter((post) => post.id !== id));
       // setPosts(prevPosts => prevPosts.filter(post => post.id !== id));
     } catch (e) {
-      setError("An error occured while deleting the post: " + e.message);
-      console.log("An error occured while deleting the post: " + e.message);
+      setError("failed to delete post: " + e.message);
+      console.log("failed to delete post: " + e.message);
     }
   }
   
+
   return (
     <div>
       {posts.map((post) => {
