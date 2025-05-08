@@ -42,12 +42,14 @@ async function updatePost(id, postData) {
   })
 
   if (!response.ok) {
-    throw new Error('Failed to update post: ' + response.statusText);
+    throw new Error('failed to update post: ' + response.statusText);
   }
   return response.json();
 }
 
 async function deletePost(id) {
+  console.log("path:", `${API_URL}/${id}`);
+
   const response = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",
   });

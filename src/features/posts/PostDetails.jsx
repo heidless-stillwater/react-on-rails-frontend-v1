@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+
 import { 
   deletePost, 
   fetchPost,
@@ -8,6 +9,8 @@ import {
 function PostDetails() {
   const [ post, setPost ] = useState(null);
   const { id } = useParams();
+  const [, setError ] = useState(null)
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,19 +20,20 @@ function PostDetails() {
         console.log("json", json);
         setPost(json);
       } catch (e) {
-        setError("An error occurred while fetching the post: " + e.message);
-        console.log("An error occurred while fetching the post: " + e.message);
+        setError("failed to fetch the Post: " + e);
+        console.log("failed to fetch the Post: " + e);
       }  
     }
     fetchCurrentPost();
   }, [id]);
 
   const deletePostHandler = async () => {
-    try {
+    try { 
       await deletePost(id);
       navigate("/");
-    } catch (e) {
-      console.log("An error occurred while deleting the post: " + e.message);
+    } catch (error) {
+      console.error("failed to delete post: ", error);
+      setError("failed to delete post: ", error);
     }
   }
 

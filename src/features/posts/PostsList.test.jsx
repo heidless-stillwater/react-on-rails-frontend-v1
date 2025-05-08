@@ -4,6 +4,7 @@ global.TextEncoder = TextEncoder;
 
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+
 import PostsList from "./PostsList";
 import * as postsService from "../../services/postService";
 
@@ -48,9 +49,42 @@ describe("PostsList component", () => {
 
     await waitFor(() => expect(postsService.deletePost).toHaveBeenCalled());
 
-    // expect(screen.queryByText(postText)).not.toBeInTheDocument();
+    postsService.fetchAllPosts.mockResolvedValue(mockPosts.filter(post => post.title !== postText));
+    await waitFor(() => expect(screen.queryByText(postText)).not.toBeInTheDocument());
+  });
+
+  test("sets error & loading to false when fetching posts fails", async () => {
+    const error = new Error("failed to fetch posts");
+    postsService.fetchAllPosts.mockRejectedValue(error);
+
+    render(<PostsList />, { wrapper: MemoryRouter });
+
+    await waitFor(() => {
+      expect(console.error).toHaveBeenCalled();
+    });
+
+    expect(global.console.error).toHaveBeenCalledWith("failed to fetch posts");
 
   });
 
+  test("logs error when deleting a post fails", async () => {
+    postsService.fetchAllPosts.mockResolvedValue(mockPosts);
+    const deleteError = new Error("Delete Failed");
+    postsService.deletePost.mockRejectedValue(deleteError);
+
+    render(<PostsList />, { wrapper: MemoryRouter });
+
+    await waitFor(() => screen.getByText("Post 1"));
+
+    fireEvent.click(screen.getAllByText("Delete")[0]);
+
+    waitFor(() => {
+      expect(console.error).toHaveBeenCalledWith(
+        "failed to delete post: ",
+        deleteError
+      );
+    });
+
+  });
 
 });
