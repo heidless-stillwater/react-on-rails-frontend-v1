@@ -33,6 +33,8 @@ async function createPost(postData) {
 }
 
 async function updatePost(id, postData) { 
+  console.log("in updatePost: ", id, postData);
+  console.log("path:", `${API_URL}/${id}`);
   const response = await fetch(`${API_URL}/${id}`, {
     method: 'PUT',
     headers: {

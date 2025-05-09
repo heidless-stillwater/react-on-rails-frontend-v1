@@ -14,7 +14,7 @@ function NewPostForm () {
 
     try {
       const response = await createPost(postData);
-      console.log("NewPostForm::response", response);
+      // console.log("NewPostForm::response", response);
       navigate(`/posts/${response.id}`);
     } catch (e) {
       console.error("failed to create post: ", e);
