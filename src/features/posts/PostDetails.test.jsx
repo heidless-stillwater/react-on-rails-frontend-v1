@@ -7,6 +7,7 @@ import { MemoryRouter, Routes, Route } from "react-router-dom";
 import PostDetails from "./PostDetails";
 import * as postService from "../../services/postService";
 
+
 jest.mock("../../constants", () => ({
   API_URL: "http://your-test-api-url",
 }));
@@ -98,6 +99,7 @@ describe("PostDetails component", () => {
       );
     });
     consoleSpy.mockRestore();
+    
   });
 });
 
