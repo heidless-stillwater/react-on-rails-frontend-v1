@@ -6,12 +6,10 @@ global.TextEncoder = TextEncoder;
 import { fireEvent, render, screen } from "@testing-library/react";
 import { BrowserRouter as Router} from "react-router-dom";
 import { act } from "react";
-// import { act } from "react-dom/test-utils";
 
 // custom
 import NewPostForm from "./NewPostForm";
 import { createPost } from "../../services/postService";
-import JSDOMEnvironment from "jest-environment-jsdom";
 
 jest.mock("../../services/postService", () => ({
   createPost: jest.fn(() => {

@@ -15,13 +15,13 @@ function PostEditForm () {
         const json = await fetchPost(id)
         setPost(json)
       } catch (e) {
-        setError('An error occurred while fetching the post: ' + e.message)
-        console.log('An error occurred while fetching the post: ' + e.message)
+        console.error('failed to fetch the post:', e);
+        setError(e);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
-    fetchCurrentPost()
+    fetchCurrentPost();
   }, [id])
 
   const handleSubmit = async (e) => {
@@ -34,12 +34,13 @@ function PostEditForm () {
 
     try {
       const response = await updatePost(id, updatedPost)
-      console.log("response", response)
+      console.log("postEdit::redirect", `/posts/${id}`)
       navigate(`/posts/${id}`)
+      // navigate(`/`)
     }
     catch (e) {
-      setError('An error occurred while updating the post: ' + e.message)
-      console.error('An error occurred while updating the post: ' + e.message)
+      console.error('failed to update the post:', e);
+      setError(e);
     }
   }
   if (loading) {
@@ -52,7 +53,7 @@ function PostEditForm () {
 
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="post-title">Title</label>
+          <label htmlFor="title">Title</label>
           <br />
           <input
             type="text"
