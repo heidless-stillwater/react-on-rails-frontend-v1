@@ -14,27 +14,21 @@ function NewPostForm () {
 
     try {
       const response = await createPost(postData);
-      console.log("response", response);
+      console.log("NewPostForm::response", response);
       navigate(`/posts/${response.id}`);
     } catch (e) {
-      console.error("Failed to create post: ", e);
+      console.error("failed to create post: ", e);
     }
 
-    if (response.ok) {
-      const { id } = await response.json()
-      navigate(`/posts/${id}`)
-    } else {
-      console.error('Failed to create post')
-    }
-  }
+  };
 
   return (
     <div>
-      <h2>Create new Post</h2>
+      <h2>New Post</h2>
       {/* <h3>{console.log(`NewPostForm: API_URL: ${API_URL}`)}</h3> */}
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="titleInput">Titl:</label>
+          <label htmlFor="titleInput">Title:</label>
           <input 
             id="titleInput" 
             type="text" 
@@ -55,7 +49,7 @@ function NewPostForm () {
           />
         </div>
         <div>
-          <button type="submit">Create Post NEW</button>
+          <button type="submit">Create Post</button>
         </div>
       </form>
     </div>
