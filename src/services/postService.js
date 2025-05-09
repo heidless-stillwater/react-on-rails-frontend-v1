@@ -3,13 +3,12 @@ import { API_URL } from "../constants";
 async function fetchAllPosts() {
   const response = await fetch(`${API_URL}`);
   if (!response.ok) {
-    throw new Error("Failed to fetch posts: " + response.statusText);
+    throw new Error(response.statusText);
   }
   return response.json();
 }
 
 async function fetchPost(id) {
-  console.log("path:", `${API_URL}/${id}`);
   const response = await fetch(`${API_URL}/${id}`);
   if (!response.ok) {
     throw new Error(response.statusText);
@@ -27,14 +26,12 @@ async function createPost(postData) {
   })
 
   if (!response.ok) {
-    throw new Error('Failed to create post: ' + response.statusText);
+    throw new Error(response.statusText);
   }
   return response.json();
 }
 
 async function updatePost(id, postData) { 
-  console.log("in updatePost: ", id, postData);
-  console.log("path:", `${API_URL}/${id}`);
   const response = await fetch(`${API_URL}/${id}`, {
     method: 'PUT',
     headers: {
@@ -50,8 +47,6 @@ async function updatePost(id, postData) {
 }
 
 async function deletePost(id) {
-  console.log("path:", `${API_URL}/${id}`);
-
   const response = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",
   });
@@ -60,8 +55,8 @@ async function deletePost(id) {
   if (response.status === 204) {
     return null;
   }
-
-  return response.json();
+  
+  throw new Error(response.statusText);
 }
 
 export {

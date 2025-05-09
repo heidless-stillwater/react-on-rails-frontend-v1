@@ -34,7 +34,7 @@ function PostEditForm () {
 
     try {
       const response = await updatePost(id, updatedPost)
-      console.log("postEdit::redirect", `/posts/${id}`)
+      // console.log("postEdit::redirect", `/posts/${id}`)
       navigate(`/posts/${id}`)
       // navigate(`/`)
     }
