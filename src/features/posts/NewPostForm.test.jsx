@@ -59,6 +59,7 @@ describe("NewPostForm", () => {
 
   });
 
+
   test ("submits form & redirects to the Posts page", async () => {
     renderForm();
 
