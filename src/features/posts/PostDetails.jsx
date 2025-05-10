@@ -42,7 +42,6 @@ function PostDetails() {
   return (
     <div>
       {/* <h1>{console.log("post", post)}</h1> */}
-      <h1>Post Detail</h1>
       <h2>{post.title}</h2>
       <p>{post.body}</p>
       <Link to="/">Back to Posts</Link>

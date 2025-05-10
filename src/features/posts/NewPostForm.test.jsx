@@ -40,7 +40,7 @@ describe("NewPostForm", () => {
 
     const titleInput = screen.getByLabelText(/Title:/i);
     const bodyInput = screen.getByLabelText(/Body:/i);
-    const submitButton = screen.getByRole("button", { name: /Create Post/i });
+    const submitButton = screen.getByRole("button", { name: /Create/i });
 
     expect(titleInput).toBeInTheDocument();
     expect(bodyInput).toBeInTheDocument();
@@ -59,12 +59,13 @@ describe("NewPostForm", () => {
 
   });
 
+
   test ("submits form & redirects to the Posts page", async () => {
     renderForm();
 
     const titleInput = screen.getByLabelText(/Title:/i);
     const bodyInput = screen.getByLabelText(/Body:/i);
-    const submitButton = screen.getByRole("button", { name: /Create Post/i });
+    const submitButton = screen.getByRole("button", { name: /Create/i });
     
     const expectedTitle = "Test Post";
     const expectedBody ="This is a test post";
@@ -91,7 +92,7 @@ describe("NewPostForm", () => {
 
     const titleInput = screen.getByLabelText(/Title:/i);
     const bodyInput = screen.getByLabelText(/Body:/i);
-    const submitButton = screen.getByRole("button", { name: /Create Post/i });
+    const submitButton = screen.getByRole("button", { name: /Create/i });
 
     const expectedTitle = "Test Post";
     const expectedBody ="This is a test post";  
