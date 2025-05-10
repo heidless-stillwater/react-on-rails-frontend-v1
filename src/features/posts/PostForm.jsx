@@ -11,7 +11,7 @@ function PostForm ({ post, headerText, buttonText, onSubmit }) {
 
   return (
     <div>
-      <h2>{post ? 'Edit Post' : 'New Post'}</h2>
+      <h2>{post ? 'Edit Post' : 'Create Post'}</h2>
       <form
         onSubmit={(e) => {
           e.preventDefault();
