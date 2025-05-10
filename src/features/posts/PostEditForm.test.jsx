@@ -63,7 +63,9 @@ describe("PostEditForm", () => {
       expect(fetchPost).toHaveBeenCalledTimes(1);
     });
 
+    
     const newPost = {
+      id: 1,
       title: "New Post Title",
       body: "New Post Body",
     };

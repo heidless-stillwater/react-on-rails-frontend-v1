@@ -20,17 +20,11 @@ function PostEditForm () {
     fetchCurrentPost();
   }, [id])
 
-  const handleUpdateSubmit = async (e) => {
-    const updatedPost = {
-      title: post.title,
-      body: post.body
-    };
-
+  const handleUpdateSubmit = async (formData) => {
+    
     try {
-      const response = await updatePost(id, updatedPost)
-      // console.log("postEdit::redirect", `/posts/${id}`)
+      await updatePost(id, formData);
       navigate(`/posts/${id}`)
-      // navigate(`/`)
     }
     catch (e) {
       console.error('failed to update the post:', e);
