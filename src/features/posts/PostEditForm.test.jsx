@@ -19,8 +19,8 @@ jest.mock("../../services/postService", () => ({
 describe("PostEditForm", () => {
   const mockPost = {
     id: 1,
-    title: "Original Post Title",
-    body: "Original Post Body",
+    title: "New Post Title",
+    body: "New Post Body",
   };
 
   const renderForm = () => {
