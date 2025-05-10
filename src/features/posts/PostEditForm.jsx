@@ -5,8 +5,6 @@ import { fetchPost, updatePost } from '../../services/postService'
 function PostEditForm () {
   const [post, setPost ] = useState(null)
   const { id } = useParams()
-  const [loading, setLoading ] = useState(true)
-  const [, setError ] = useState(null)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -16,15 +14,12 @@ function PostEditForm () {
         setPost(json)
       } catch (e) {
         console.error('failed to fetch the post:', e);
-        setError(e);
-      } finally {
-        setLoading(false);
       }
     }
     fetchCurrentPost();
   }, [id])
 
-  const handleSubmit = async (e) => {
+  const handleUpdateSubmit = async (e) => {
     e.preventDefault()
     
     const updatedPost = {
@@ -40,10 +35,9 @@ function PostEditForm () {
     }
     catch (e) {
       console.error('failed to update the post:', e);
-      setError(e);
     }
   }
-  if (loading) {
+  if (!post) {
     return <h2>Loading...</h2>
   }
 
@@ -51,7 +45,7 @@ function PostEditForm () {
     <div>
       <h2>Edit Post</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleUpdateSubmit}>
         <div>
           <label htmlFor="title">Title</label>
           <br />
