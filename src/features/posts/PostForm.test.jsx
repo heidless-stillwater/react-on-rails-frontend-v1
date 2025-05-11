@@ -46,7 +46,7 @@ describe('PostForm Component', () => {
     }
     const mockSubmit = jest.fn()
     const buttonText = 'Submit'
-    const { getByLabelText, getByText, getByRole } = render(
+    const { getByLabelText, getByText } = render(
       <PostForm
         post={mockPost}
         headerText="Edit Post"
