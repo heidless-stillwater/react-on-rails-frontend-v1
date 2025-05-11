@@ -82,6 +82,7 @@ describe("NewPostForm", () => {
     expect(createPost).toHaveBeenCalledTimes(1);
   });
 
+
   test ("displays error message when post creation fails", async () => {
     createPost.mockRejectedValue(new Error("failed to create post"));
     
