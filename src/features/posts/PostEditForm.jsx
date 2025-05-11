@@ -30,7 +30,7 @@ function PostEditForm () {
       console.error('failed to update the post:', e);
     }
   }
-
+  
   if (!post) {
     return <h2>Loading...</h2>
   }

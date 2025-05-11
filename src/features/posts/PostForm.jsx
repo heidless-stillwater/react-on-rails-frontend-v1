@@ -40,6 +40,7 @@ function PostForm ({ post, headerText, buttonText, onSubmit }) {
               body: e.target.value }
             )}
           />
+
         </div>
         <div>
           <button type="submit">{buttonText}</button>

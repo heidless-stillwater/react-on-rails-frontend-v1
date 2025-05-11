@@ -2,19 +2,18 @@ import { useNavigate } from 'react-router-dom'
 import { createPost } from '../../services/postService'
 import PostForm from './PostForm'
 
-function NewPostForm () {
+function NewPostForm() {
   const navigate = useNavigate()
 
   const handleCreateSubmit = async (formData) => {
     try {
-      const response = await createPost(formData);
+      const response = await createPost(formData)
       // console.log("NewPostForm::response", response);
-      navigate(`/posts/${response.id}`);
+      navigate(`/posts/${response.id}`)
     } catch (e) {
-      console.error("failed to create post: ", e);
+      console.error('failed to create post: ', e)
     }
-
-  };
+  }
 
   return (
     <PostForm
@@ -24,5 +23,7 @@ function NewPostForm () {
     />
   )
 }
+
+// Comment here
 
 export default NewPostForm
