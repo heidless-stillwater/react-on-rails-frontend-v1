@@ -23,6 +23,7 @@ async function createPost(postData) {
     body: postData
   })
 
+  
   if (!response.ok) {
     throw new Error(response.statusText);
   }

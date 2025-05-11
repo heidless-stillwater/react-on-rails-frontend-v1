@@ -99,5 +99,11 @@ describe('PostForm Component', () => {
     await act(async () => {
       fireEvent.click(getByRole('button', { name: /submit/i }))
     })
+
+    expect(mockSubmit).toHaveBeenCalledTimes(1)
+    expect(mockSubmit).toHaveBeenCalledWith({
+      title: newTitle,
+      body: newBody,
+    })
   })
 })
