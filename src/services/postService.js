@@ -19,10 +19,8 @@ async function fetchPost(id) {
 async function createPost(postData) {
   const response = await fetch(API_URL, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(postData)
+    // doesn't need headers because it is formData
+    body: postData
   })
 
   if (!response.ok) {
