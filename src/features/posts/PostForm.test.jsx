@@ -106,4 +106,27 @@ describe('PostForm Component', () => {
       body: newBody,
     })
   })
+
+  it('handles image file upload', async () => {
+    const mockSubmit = jest.fn()
+    const buttonText = 'Submit'
+    const headertext = 'New Post'
+
+    const consoleSpy = jest.spyOn(console, 'log')
+    consoleSpy.mockImplementation(jest.fn())
+    const { getByLabelText, getByRole } = render(
+      <PostForm
+        headerText={headertext}
+        onSubmit={mockSubmit}
+        buttonText={buttonText}
+      />
+    )
+    const file = new File(['sample'], 'sample.png', { type: 'image/png' })
+    const imageInput = getByLabelText(/image/i)
+    fireEvent.change(imageInput, {
+      target: { files: [file] },
+    })
+
+    expect(consoleSpy).toHaveBeenCalledWith(file)
+  })
 })

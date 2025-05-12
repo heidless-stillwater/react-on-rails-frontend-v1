@@ -10,6 +10,7 @@ import { act } from 'react'
 // custom
 import PostEditForm from './PostEditForm'
 import { fetchPost, updatePost } from '../../services/postService'
+import { objectToFormData } from '../../utils/formDataHelper'
 
 jest.mock('../../services/postService', () => ({
   fetchPost: jest.fn(),
@@ -63,12 +64,12 @@ describe('PostEditForm', () => {
     })
 
     const newPost = {
-      id: 1,
       title: 'New Post Title',
       body: 'New Post Body',
+      image: null,
     }
 
-    // const formData = objectToFormData({ post: newPost });
+    const formData = objectToFormData({ post: newPost })
 
     await waitFor(() => {
       expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument()
@@ -88,7 +89,7 @@ describe('PostEditForm', () => {
 
     await waitFor(() => {
       expect(updatePost).toHaveBeenCalledTimes(1)
-      // expect(updatePost).toHaveBeenCalledWith("1", newPost);
+      expect(updatePost).toHaveBeenCalledWith('1', formData)
     })
 
     expect(screen.getByText(/Post Detail/i)).toBeInTheDocument()
