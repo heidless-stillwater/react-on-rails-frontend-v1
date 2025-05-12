@@ -1,23 +1,15 @@
 import { useNavigate } from 'react-router-dom'
 import { createPost } from '../../services/postService'
 import PostForm from './PostForm'
+import { object } from 'prop-types'
+import { objectToFormData } from '../../utils/formDataHelper'
 
 function NewPostForm() {
   const navigate = useNavigate()
 
   const handleCreateSubmit = async (rawData) => {
-    // create form data
-    // can't just be the rawData
-    // needs to be wrapped in a post[field_name] format
-    // for example, post[title], post[body], post[image]
-    const formData = new FormData()
-    formData.append('post[title]', rawData.title)
-    formData.append('post[body]', rawData.body)
-    formData.append('post[image]', rawData.image)
-
-    // console.log('NewPostForm::formData', formData)
-
     try {
+      const formData = objectToFormData({ post: rawData })
       const response = await createPost(formData)
       // console.log("NewPostForm::response", response);
       navigate(`/posts/${response.id}`)
