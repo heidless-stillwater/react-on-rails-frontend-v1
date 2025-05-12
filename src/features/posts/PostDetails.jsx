@@ -3,6 +3,8 @@ import { useParams, useNavigate, Link } from 'react-router-dom'
 
 import { deletePost, fetchPost } from '../../services/postService'
 
+import '../../assets/stylesheets//PostImage.css'
+
 function PostDetails() {
   const [post, setPost] = useState(null)
   const { id } = useParams()
@@ -40,6 +42,7 @@ function PostDetails() {
     <div>
       {/* <h1>{console.log("post", post)}</h1> */}
       <h2>{post.title}</h2>
+      <img src={post.image_url} alt={post.title} className="post-image" />
       <p>{post.body}</p>
       <Link to="/">Back to Posts</Link>
       {' | '}

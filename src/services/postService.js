@@ -2,6 +2,7 @@ import { API_URL } from "../constants";
 
 async function fetchAllPosts() {
   const response = await fetch(`${API_URL}`);
+  // console.log("fetchAppPosts::response", response);
   if (!response.ok) {
     throw new Error(response.statusText);
   }
@@ -10,6 +11,7 @@ async function fetchAllPosts() {
 
 async function fetchPost(id) {
   const response = await fetch(`${API_URL}/${id}`);
+  // console.log("fetchPost::response", response);
   if (!response.ok) {
     throw new Error(response.statusText);
   }
@@ -22,8 +24,8 @@ async function createPost(postData) {
     // doesn't need headers because it is formData
     body: postData
   })
+  // console.log("response", response);
 
-  
   if (!response.ok) {
     throw new Error(response.statusText);
   }

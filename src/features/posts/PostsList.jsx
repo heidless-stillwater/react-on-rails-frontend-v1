@@ -1,45 +1,40 @@
-
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { 
-  deletePost, 
-  fetchAllPosts,
-} from "../../services/postService"; 
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { deletePost, fetchAllPosts } from '../../services/postService'
 
 function PostsList() {
-  const [posts, setPosts] = useState([]);
-  const [, setLoading] = useState(false);
-  const [, setError] = useState(null);
+  const [posts, setPosts] = useState([])
+  const [, setLoading] = useState(false)
+  const [, setError] = useState(null)
 
   // fetch posts from the API
   useEffect(() => {
     async function loadPosts() {
       try {
-        setLoading(true);
-        const data = await fetchAllPosts();
-        setPosts(data);
-        setLoading(false);
-        console.error("failed to fetch posts")
+        setLoading(true)
+        const data = await fetchAllPosts()
+        setPosts(data)
+        setLoading(false)
       } catch (e) {
-        setError("An error occured while fetching posts: " + e.message);
+        console.error('failed to fetch posts')
+        setError('An error occured while fetching posts: ' + e.message)
         // console.log("An error occured while fetching posts: " + e.message);
-        setLoading(false);
+        setLoading(false)
       }
     }
-    loadPosts();
-  }, []);
+    loadPosts()
+  }, [])
 
   const deletePostHandler = async (id) => {
     try {
-      await deletePost(id);
-      setPosts(posts.filter((post) => post.id !== id));
+      await deletePost(id)
+      setPosts(posts.filter((post) => post.id !== id))
       // setPosts(prevPosts => prevPosts.filter(post => post.id !== id));
     } catch (e) {
-      setError("failed to delete post: " + e.message);
+      setError('failed to delete post: ' + e.message)
       // console.log("failed to delete post: " + e.message);
     }
   }
-  
 
   return (
     <div>
@@ -51,21 +46,37 @@ function PostsList() {
                 {post.title}
               </Link>
             </h2>
+
+            <div className="post-image-container">
+              {/* standard image if image_url exists */}
+              {post.image_url ? (
+                <img
+                  src={post.image_url}
+                  alt={post.title}
+                  className="post-image"
+                />
+              ) : (
+                <div className="post-image-stub" />
+              )}
+            </div>
+
             <div className="post-links">
               <Link to={`/posts/${post.id}/edit`} className="post-links">
                 Edit
               </Link>
-              {" | "}
-              <button onClick={() => deletePostHandler(post.id)} className="post-links">
+              {' | '}
+              <button
+                onClick={() => deletePostHandler(post.id)}
+                className="post-links"
+              >
                 Delete
               </button>
             </div>
-            </div>
-        );
+          </div>
+        )
       })}
     </div>
-  );
+  )
 }
 
-export default PostsList;
-
+export default PostsList

@@ -45,7 +45,7 @@ function PostForm({ post, headerText, buttonText, onSubmit }) {
                 ...formData,
                 image: e.target.files[0],
               })
-              console.log(e.target.files[0])
+              console.log('################ IMAGE:' + e.target.files[0])
             }}
           />
         </div>
