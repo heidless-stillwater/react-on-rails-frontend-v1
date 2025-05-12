@@ -1,43 +1,40 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useEffect, useState } from 'react'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 
-import { 
-  deletePost, 
-  fetchPost,
-} from "../../services/postService";
+import { deletePost, fetchPost } from '../../services/postService'
 
 function PostDetails() {
-  const [ post, setPost ] = useState(null);
-  const { id } = useParams();
-  const [, setError ] = useState(null)
+  const [post, setPost] = useState(null)
+  const { id } = useParams()
+  const [, setError] = useState(null)
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchCurrentPost = async () => {
       try {
-        const json = await fetchPost(id);
+        const json = await fetchPost(id)
         // console.log("json", json);
-        setPost(json);
+        setPost(json)
       } catch (e) {
-        setError("failed to fetch the Post: " + e);
+        setError('failed to fetch the Post: ' + e)
         // console.log("failed to fetch the Post: " + e);
-      }  
+      }
     }
-    fetchCurrentPost();
-  }, [id]);
+    fetchCurrentPost()
+  }, [id])
 
   const deletePostHandler = async () => {
-    try { 
-      await deletePost(id);
-      navigate("/");
+    try {
+      await deletePost(id)
+      navigate('/')
     } catch (error) {
-      console.error("failed to delete post: ", error);
-      setError("failed to delete post: ", error);
+      console.error('failed to delete post: ', error)
+      setError('failed to delete post: ', error)
     }
   }
 
-  if (!post) return <h2>Loading Post...</h2>;
+  if (!post) return <h2>Loading Post...</h2>
 
   return (
     <div>
@@ -45,13 +42,11 @@ function PostDetails() {
       <h2>{post.title}</h2>
       <p>{post.body}</p>
       <Link to="/">Back to Posts</Link>
-      {" | "}
+      {' | '}
       <Link to={`/posts/${post.id}/edit`}>Edit</Link>
-      {" | "}
+      {' | '}
       <button onClick={deletePostHandler}>Delete</button>
     </div>
-  );
+  )
 }
-export default PostDetails;
-
-
+export default PostDetails
