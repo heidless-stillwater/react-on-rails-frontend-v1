@@ -3,7 +3,8 @@ import { useParams, useNavigate, Link } from 'react-router-dom'
 
 import { deletePost, fetchPost } from '../../services/postService'
 
-import '../../assets/stylesheets//PostImage.css'
+//import '../../assets/stylesheets/PostImage.css'
+import './PostImage.css'
 
 function PostDetails() {
   const [post, setPost] = useState(null)
