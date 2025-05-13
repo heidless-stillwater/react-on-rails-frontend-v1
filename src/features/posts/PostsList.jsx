@@ -1,83 +1,113 @@
+// API_URL comes from the .env.development file
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { deletePost, fetchAllPosts } from '../../services/postService'
+import { Link, useSearchParams } from 'react-router-dom'
+import { deletePost } from '../../services/postService'
+import './PostImage.css'
+
+import SearchBar from './SearchBar'
+import usePostsData from '../../hooks/usePostsData'
+import useURLSearchParam from '../../hooks/useURLSearchParam'
 
 function PostsList() {
   const [posts, setPosts] = useState([])
-  const [, setLoading] = useState(false)
-  const [, setError] = useState(null)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [debouncedSearchTerm, setDebouncedSearchTerm] =
+    useURLSearchParam('search')
 
-  // fetch posts from the API
+  const {
+    posts: fetchedPosts,
+    totalPosts: totalPosts,
+    loading: loading,
+    error: error,
+    perPage: perPage,
+  } = usePostsData(debouncedSearchTerm) // Note the change here
+
   useEffect(() => {
-    async function loadPosts() {
-      try {
-        setLoading(true)
-        const data = await fetchAllPosts()
-        setPosts(data)
-        setLoading(false)
-      } catch (e) {
-        console.error('failed to fetch posts')
-        setError('An error occured while fetching posts: ' + e.message)
-        // console.log("An error occured while fetching posts: " + e.message);
-        setLoading(false)
-      }
+    if (fetchedPosts) {
+      // console.log('Fetched posts:', fetchedPosts)
+      setPosts(fetchedPosts) // Update the posts state once fetchedPosts is available
     }
-    loadPosts()
-  }, [])
+  }, [fetchedPosts])
+
+  // console.log('fetchedPosts:', fetchedPosts)
+  console.log('test')
+
+  // useEffect(() => {
+  //   const initialSearchTerm = searchParams.get('search') || ''
+  //   setSearchTerm(initialSearchTerm)
+
+  //   // const pageFromURL = searchParams.get("page") || "1";
+  //   // setCurrentPage(Number(pageFromURL));
+  // }, [searchParams])
 
   const deletePostHandler = async (id) => {
     try {
       await deletePost(id)
-      setPosts(posts.filter((post) => post.id !== id))
-      // setPosts(prevPosts => prevPosts.filter(post => post.id !== id));
+      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id))
     } catch (e) {
-      setError('failed to delete post: ' + e.message)
-      // console.log("failed to delete post: " + e.message);
+      console.error('Failed to delete the post: ', e)
     }
+  }
+
+  const handleImmediateSearchChange = (searchValue) => {
+    setSearchTerm(searchValue)
+  }
+
+  const handleDebouncedSearchChange = (searchValue) => {
+    setDebouncedSearchTerm(searchValue)
+  }
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+
+    // Update the URL to include the page number
+    setSearchParams({ search: debouncedSearchTerm, page: page })
   }
 
   return (
     <div>
-      {posts.map((post) => {
-        return (
-          <div key={post.id} className="post-container">
-            <h2>
-              <Link to={`/posts/${post.id}`} className="post-title">
-                {post.title}
-              </Link>
-            </h2>
+      <SearchBar
+        value={searchTerm}
+        onSearchChange={handleDebouncedSearchChange}
+        onImmediateChange={handleImmediateSearchChange}
+      />
+      {/* <Pagination
+        currentPage={currentPage}
+        totalPosts={totalPosts}
+        postsPerPage={perPage}
+        onPageChange={handlePageChange}
+      /> */}
+      {loading && <p>Loading...</p>}
+      {error && <p>Error loading posts.</p>}
 
-            <div className="post-image-container">
-              {/* standard image if image_url exists */}
-              {post.image_url ? (
-                <img
-                  src={post.image_url}
-                  alt={post.title}
-                  className="post-image"
-                />
-              ) : (
-                <div
-                  className="post-image-stub"
-                  data-testid="post-image-stub"
-                />
-              )}
-            </div>
-
-            <div className="post-links">
-              <Link to={`/posts/${post.id}/edit`} className="post-links">
-                Edit
-              </Link>
-              {' | '}
-              <button
-                onClick={() => deletePostHandler(post.id)}
-                className="post-links"
-              >
-                Delete
-              </button>
-            </div>
+      {posts.map((post) => (
+        <div key={post.id} className="post-container">
+          <h2>
+            <Link to={`/posts/${post.id}`} className="post-title">
+              {post.title}
+            </Link>
+          </h2>
+          <div className="post-image-container">
+            {/* Standard image if the url exists */}
+            {/* If the url does not exist, render an empty div */}
+            {/* of equal size to the standard post-image container */}
+            {post.image_url ? (
+              <img
+                src={post.image_url}
+                alt={post.title}
+                className="post-image"
+              />
+            ) : (
+              <div className="post-image-stub" data-testid="post-image-stub" />
+            )}
           </div>
-        )
-      })}
+          <div className="post-links">
+            <Link to={`/posts/${post.id}/edit`}>Edit</Link>
+            {' | '}
+            <button onClick={() => deletePostHandler(post.id)}>Delete</button>
+          </div>
+        </div>
+      ))}
     </div>
   )
 }

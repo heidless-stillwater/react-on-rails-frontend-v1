@@ -1,7 +1,15 @@
-// export const API_URL = 'https://react-on-rails-api-v1-svc-669532112637.europe-west1.run.app/api/v1/posts';
+export const POSTS_API_URL =
+  process.env.NODE_ENV === "test"
+    ? "http://mocked-api-url"
+    : import.meta.env.VITE_POSTS_API_URL;
 
-export const API_URL = 'http://localhost:3000/api/v1/posts';
+export const SEARCH_API_URL =
+  process.env.NODE_ENV === "test"
+    ? "http://mocked-api-url"
+    : import.meta.env.VITE_SEARCH_API_URL;
 
-//   process.env.NODE_ENV === 'test'
-//     ? "http://mocked-api-url"
-//     : import.meta.env.VITE_API_URL;
+// console.log("======= constants.js ===========")
+// console.log("POSTS_API_URL", POSTS_API_URL);
+// console.log("SEARCH_API_URL", SEARCH_API_URL);
+
+
