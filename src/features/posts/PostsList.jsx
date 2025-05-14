@@ -8,19 +8,25 @@ import SearchBar from './SearchBar'
 import usePostsData from '../../hooks/usePostsData'
 import useURLSearchParam from '../../hooks/useURLSearchParam'
 
+import Pagination from './Pagination'
+
 function PostsList() {
-  const [posts, setPosts] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [debouncedSearchTerm, setDebouncedSearchTerm] =
     useURLSearchParam('search')
 
+  const [searchParams, setSearchParams] = useSearchParams()
+  const initialPageFromURL = Number(searchParams.get('page') || '1')
+  const [currentPage, setCurrentPage] = useState(initialPageFromURL)
+
+  const [posts, setPosts] = useState([])
   const {
     posts: fetchedPosts,
-    totalPosts: totalPosts,
     loading: loading,
     error: error,
+    totalPosts: totalPosts,
     perPage: perPage,
-  } = usePostsData(debouncedSearchTerm) // Note the change here
+  } = usePostsData(debouncedSearchTerm, currentPage) // Note the change here
 
   useEffect(() => {
     if (fetchedPosts) {
@@ -29,16 +35,16 @@ function PostsList() {
     }
   }, [fetchedPosts])
 
+  useEffect(() => {
+    const intitialSearchTerm = searchParams.get('search') || ''
+    setSearchTerm(intitialSearchTerm)
+
+    const pageFromURL = searchParams.get('page') || '1'
+    setCurrentPage(Number(pageFromURL))
+  }, [searchParams])
+
   // console.log('fetchedPosts:', fetchedPosts)
-  console.log('test')
-
-  // useEffect(() => {
-  //   const initialSearchTerm = searchParams.get('search') || ''
-  //   setSearchTerm(initialSearchTerm)
-
-  //   // const pageFromURL = searchParams.get("page") || "1";
-  //   // setCurrentPage(Number(pageFromURL));
-  // }, [searchParams])
+  // console.log('test')
 
   const deletePostHandler = async (id) => {
     try {
@@ -71,12 +77,12 @@ function PostsList() {
         onSearchChange={handleDebouncedSearchChange}
         onImmediateChange={handleImmediateSearchChange}
       />
-      {/* <Pagination
+      <Pagination
         currentPage={currentPage}
         totalPosts={totalPosts}
         postsPerPage={perPage}
         onPageChange={handlePageChange}
-      /> */}
+      />
       {loading && <p>Loading...</p>}
       {error && <p>Error loading posts.</p>}
 
