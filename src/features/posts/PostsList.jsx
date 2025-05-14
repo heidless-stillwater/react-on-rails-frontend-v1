@@ -16,16 +16,15 @@ function PostsList() {
     useURLSearchParam('search')
 
   const [searchParams, setSearchParams] = useSearchParams()
-
   const initialPageFromURL = Number(searchParams.get('page') || '1')
   const [currentPage, setCurrentPage] = useState(initialPageFromURL)
 
   const [posts, setPosts] = useState([])
   const {
     posts: fetchedPosts,
-    totalPosts: totalPosts,
     loading: loading,
     error: error,
+    totalPosts: totalPosts,
     perPage: perPage,
   } = usePostsData(debouncedSearchTerm, currentPage) // Note the change here
 
@@ -36,8 +35,16 @@ function PostsList() {
     }
   }, [fetchedPosts])
 
+  useEffect(() => {
+    const intitialSearchTerm = searchParams.get('search') || ''
+    setSearchTerm(intitialSearchTerm)
+
+    const pageFromURL = searchParams.get('page') || '1'
+    setCurrentPage(Number(pageFromURL))
+  }, [searchParams])
+
   // console.log('fetchedPosts:', fetchedPosts)
-  console.log('test')
+  // console.log('test')
 
   const deletePostHandler = async (id) => {
     try {

@@ -1,12 +1,11 @@
 import { POSTS_API_URL, SEARCH_API_URL } from "../constants";
 
-console.log("======= postService.js ===========")
-console.log("POSTS_API_URL", POSTS_API_URL);
-console.log("SEARCH_API_URL", SEARCH_API_URL);
+// console.log("======= postService.js ===========")
+// console.log("POSTS_API_URL", POSTS_API_URL);
+// console.log("SEARCH_API_URL", SEARCH_API_URL);
 
-async function fetchAllPosts() {
-  const response = await fetch(`${POSTS_API_URL}`);
-  // console.log("fetchAppPosts::response", response);
+async function fetchAllPosts(page = 1) {
+  const response = await fetch(`${POSTS_API_URL}?page=${page}`);
   if (!response.ok) {
     throw new Error(response.statusText);
   }
@@ -67,7 +66,7 @@ async function deletePost(id) {
 async function searchPosts(query, page = 1) {
   // => api/v1/search + /posts/?q=...
   const response = await fetch(
-    `${SEARCH_API_URL}/posts/?q=${query}`
+    `${SEARCH_API_URL}/posts/?q=${query}&page=${page}`
   );
   if (!response.ok) {
     throw new Error(response.statusText);

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 
 function Pagination({ currentPage, totalPosts, postsPerPage, onPageChange }) {
   const totalPages = Math.ceil(totalPosts / postsPerPage)
+  console.log('totalPages:', totalPages)
 
   const handlePrevious = () => {
     if (currentPage > 1) {
@@ -26,7 +27,7 @@ function Pagination({ currentPage, totalPosts, postsPerPage, onPageChange }) {
     }
 
     if (currentPage >= totalPages - 5) {
-      const firstPageAfterEllipsis = totalPages - 6
+      const firstPageAfterEllipsis = totalPages - 8
       return [1, '...', ...createRange(firstPageAfterEllipsis, totalPages)]
     }
 
@@ -63,10 +64,26 @@ function Pagination({ currentPage, totalPosts, postsPerPage, onPageChange }) {
   }
 
   return (
-    <div className="pagination">
+    <div>
       <button onClick={handlePrevious} disabled={currentPage === 1}>
         Previous
       </button>
+
+      {getVisiblePageNumbers().map((page, index) =>
+        typeof page === 'number' ? (
+          <button
+            key={page}
+            onClick={() => onPageChange(page)}
+            disabled={page === currentPage}
+          >
+            {page}
+          </button>
+        ) : (
+          <span key={`ellipsis-${index}`} style={{ margin: '0 5px' }}>
+            {page}
+          </span>
+        )
+      )}
 
       <button
         onClick={handleNext}

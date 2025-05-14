@@ -13,10 +13,15 @@ function usePostsData(searchTerm, page = 1) {
       try {
         let data;
         if (searchTerm) {
+          // console.log('WITH searchTerm:', searchTerm);
           data = await searchPosts(searchTerm, page);
         } else {
+          // console.log('WITHOUT searchTerm:', searchTerm);
           data = await fetchAllPosts(page);
         }
+        // console.log('TST searchTerm:', searchTerm);
+        console.log('data:', data);
+
         if (data.posts) {
           console.log('Fetched posts:', data.posts.length);
           setPosts(data.posts);
@@ -31,7 +36,7 @@ function usePostsData(searchTerm, page = 1) {
       }
     }
     loadPosts();
-  }, [searchTerm]);
+  }, [searchTerm, page]);
 
   return { posts, loading, error, totalPosts, perPage };
 }
