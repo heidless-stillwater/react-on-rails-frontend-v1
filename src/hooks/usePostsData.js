@@ -18,6 +18,7 @@ function usePostsData(searchTerm, page = 1) {
           data = await fetchAllPosts(page);
         }
         if (data.posts) {
+          console.log('Fetched posts:', data.posts.length);
           setPosts(data.posts);
           setTotalPosts(data.total_count);
           setPerPage(data.per_page);
