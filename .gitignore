@@ -3,8 +3,8 @@ coverage/
 
 # env files
 .env-vars
-.env
-.env.development
+# .env
+# .env.development
 
 # Logs
 logs
