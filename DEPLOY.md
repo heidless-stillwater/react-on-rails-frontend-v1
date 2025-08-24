@@ -10,6 +10,7 @@ source .env-vars    # .env-vars set in both this AND api project 'react-on-rails
 echo gcloud builds submit --tag gcr.io/${GCP_PROJECT}/${GCP_SERVICE_NAME} .
 gcloud builds submit --tag gcr.io/${GCP_PROJECT}/${GCP_SERVICE_NAME} .
 
+
 ```
 
 ## Manually Deploy Service
@@ -47,39 +48,103 @@ npm run dev
 # gCloud DEPLOY
 #
 ```
-source .env-vars
+#source .env-vars
 
-## storage bucket
+### storage bucket
+#```
+## Set up a Cloud Storage bucket
+#source .env-vars
+#echo ' '
+#echo GCP_BUCKET: ${GCP_BUCKET}
+#echo GCP_REGION: ${GCP_REGION}
+
+#export bucket_path='gs://'${GCP_BUCKET}
+#echo bucket_path: ${bucket_path}
+
+#gsutil mb -l ${GCP_REGION} ${bucket_path}
+
+### [bucket permissions]()
+#gsutil iam ch allUsers:objectViewer $bucket_path
+
 ```
-# Set up a Cloud Storage bucket
-source .env-vars
+
+#################
+# Build Resources
+
+## run INSTANCE script
+```
+source ./config/.env-vars
+create_instance_dir='/home/heidless/projects/heidless-DOCS/RoR-DOCS-0/Admin'
+ls ${create_instance_dir}
+#
+zsh ${create_instance_dir}/RoR-CREATE-INSTANCE
+
+
+##################################################
+
+EDITOR='subl --wait' ./bin/rails credentials:edit
+
+=======================================
+gcp:
+  gcp_project_id: 619647634695
+  gcp_storage_api_key: AIzaSyCSTf6bSfTcaEeE6nYIsaa44EVzwhRECBo
+  gcp_storage_bucket: h-pfolio-7-react-on-rails-api-v1-bucket-0
+  db_password: kiCuPptHyyQujIQHEdpIGDirwnvbzswXjIfPHgXmQrRaMSnKqr
+  db_database: react-on-rails-api-v1-db-0
+  db_username: react-on-rails-api-v1-user-0
+  db_instance_host: h-pfolio-7:europe-west2:react-on-rails-api-v1-instance-0
+
+# utils - IF NEEDED
+source ./config/.env-vars
 echo ' '
-echo GCP_BUCKET: ${GCP_BUCKET}
-echo GCP_REGION: ${GCP_REGION}
 
-export bucket_path='gs://'${GCP_BUCKET}
-echo bucket_path: ${bucket_path}
 
-gsutil mb -l ${GCP_REGION} ${bucket_path}
+echo SECRET: ${GCP_SECRET_NAME}
+echo ' '
+gcloud secrets delete ${GCP_SECRET_NAME}
 
-## [bucket permissions]()
-gsutil iam ch allUsers:objectViewer $bucket_path
+
+## create 'secret'
+source ./config/.env-vars
+echo ' '
+
+echo SECRET: ${GCP_SECRET_NAME}
+echo ' '
+gcloud secrets create ${GCP_SECRET_NAME} --data-file config/master.key
+
+
+## Replace 'YOUR_SECRET_NAME' and 'YOUR_SECRET_VALUE'
+#echo "YOUR_SECRET_VALUE" | gcloud secrets create YOUR_SECRET_NAME --data-file=-
+
+
+## setup gcp: secret access permissions
+echo SECRET: $GCP_SECRET_NAME
+echo PROJECT_ID: $GCP_PROJECT_ID
+echo ' '
+
+gcloud secrets add-iam-policy-binding $GCP_SECRET_NAME \
+    --member serviceAccount:$GCP_PROJECT_ID-compute@developer.gserviceaccount.com \
+    --role roles/secretmanager.secretAccessor
+
 
 ```
 
+###########
 # Cloud Run
 
 ## submit to repository
 ```
-source .env-vars
+source config/.env-vars
+
 echo gcloud builds submit --tag gcr.io/${GCP_PROJECT}/${GCP_SERVICE_NAME} .
 gcloud builds submit --tag gcr.io/${GCP_PROJECT}/${GCP_SERVICE_NAME} .
+
 
 ```
 
 ## deploy service
 ```
-source .env-vars
+source config/.env-vars
 gcloud run deploy ${GCP_SERVICE_NAME} \
      --platform managed \
      --region ${GCP_REGION} \
